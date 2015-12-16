@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>wtf.dizzle.csgostate</groupId>
+    <artifactId>event-sounds</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>CSGO Event Sounds</name>
+    <description>Play certain sounds when ever an event happens.</description>
+
+    <developers>
+        <developer>
+            <id>mg031901</id>
+            <name>Mitchell Gardner</name>
+            <email>mitch@dizzle.wtf</email>
+            <roles>
+            <role>Owner</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            //mvn install:install-file -Dfile=C:\CSGOState-v0.1.jar -DgroupId=com.brekcel.csgostate -DartifactId=csgostate -Dversion={version} -Dpackaging=jar
+            <groupId>com.brekcel.csgostate </groupId>
+            <artifactId>csgostate</artifactId>
+            <version>0.1-alpha</version>
+        </dependency>
+    </dependencies>
+</project>
