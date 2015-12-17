@@ -13,4 +13,4 @@ branches:
   
 before_install:
   - wget 'https://github.com/sakki54/CSGOState/releases/download/v0.1-alpha/CSGOState-v0.1.jar' -O 'CSGOState.jar'
-  - mvn install:install-file -Dfile=/tmp/CSGOState.jar -DgroupId=com.brekcel.csgostate -DartifactId=csgostate -Dversion=0.1 -Dpackaging=jar
+  - mvn install:install-file -Dfile=CSGOState.jar -DgroupId=com.brekcel.csgostate -DartifactId=csgostate -Dversion=0.1 -Dpackaging=jar
