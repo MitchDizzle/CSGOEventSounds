@@ -1,0 +1,10 @@
+language: java
+script: mvn -q install package
+jdk:
+- oraclejdk8
+
+sudo: false
+
+branches:
+  only:
+  - master
