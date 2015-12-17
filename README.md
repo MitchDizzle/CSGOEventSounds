@@ -1,4 +1,4 @@
-# CSGOEventSounds
+# CSGOEventSounds [![Build Status](https://travis-ci.org/MitchDizzle/CSGOEventSounds.svg?branch=master)](https://travis-ci.org/MitchDizzle/CSGOEventSounds)
 Plays sounds when certain events happen.
 
 yay documentation.
