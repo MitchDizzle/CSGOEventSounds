@@ -1,13 +1,21 @@
 # CSGOEventSounds
 Plays sounds when certain events happen.
 
+yay documentation.
 
 # Usage
 
-Have Java installed.  
+Have Java (1.7) installed.  
 Open a command prompt in the directory which ```event-sounds-<version>.jar``` is installed.  
 Run this in the command prompt:  
 ```event-sounds-<version>.jar <config>```
+
+Example:
+```batch
+@echo off
+echo Launching EventSounds
+event-sounds.jar SoundConfig.jar
+```
 
 
 # Config
@@ -81,3 +89,13 @@ The sound file can be either MP3, or WAV.
 - [ ] Map Events:
   - [ ] map_start : start of a new map
   - [ ] map_end : end of a map
+
+
+# Compiling Source
+
+The code is based on **JDK 1.7**, **Maven 3.3.9**; However it will most likely compile on older versions.
+
+This is based off of the project [csgostate](https://github.com/sakki54/CSGOState), created by the user [sakki54](https://github.com/sakki54)  
+If compiling with maven (recommended) then be sure to install the CSGOState server via  (with maven install)
+``` mvn install:install-file -Dfile=C:\CSGOState-v0.1.jar -DgroupId=com.brekcel.csgostate -DartifactId=csgostate -Dversion=0.1 -Dpackaging=jar ```  
+And replacing the version with the current version, also replacing the directory of which the jar file is located.  
