@@ -14,7 +14,7 @@ Example:
 ```batch
 @echo off
 echo Launching EventSounds
-event-sounds.jar SoundConfig.jar
+event-sounds.jar SoundConfig.cfg
 ```
 
 
