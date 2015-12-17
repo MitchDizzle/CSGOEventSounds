@@ -1,7 +1,8 @@
 language: java
 
 env:
-  - CSGOSTATEVERSION="0.1"
+  global:
+    - CSGOSTATEVERSION="0.1"
 
 
 script: mvn -q install package
@@ -16,5 +17,5 @@ branches:
     - master
   
 before_install:
-  - wget 'https://github.com/sakki54/CSGOState/releases/download/v0.1-alpha/CSGOState-v${CSGOSTATEVERSION}.jar' 'CSGOState.jar'
-  - mvn install:install-file -Dfile=/tmp/CSGOState.jar -DgroupId=com.brekcel.csgostate -DartifactId=csgostate -Dversion=${CSGOSTATEVERSION} -Dpackaging=jar
+  - wget 'https://github.com/sakki54/CSGOState/releases/download/v0.1-alpha/CSGOState-v$CSGOSTATEVERSION.jar' -O 'CSGOState.jar'
+  - mvn install:install-file -Dfile=/tmp/CSGOState.jar -DgroupId=com.brekcel.csgostate -DartifactId=csgostate -Dversion=$CSGOSTATEVERSION -Dpackaging=jar
