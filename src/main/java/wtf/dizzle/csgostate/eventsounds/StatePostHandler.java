@@ -15,6 +15,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.brekcel.csgostate.JSON.JsonResponse;
+import com.brekcel.csgostate.JSON.Weapon;
 import com.brekcel.csgostate.post.PostHandlerAdapter;
 
 /**
@@ -43,8 +44,8 @@ public class StatePostHandler extends PostHandlerAdapter {
 
     @Override
     public void roundBombChange(String bomb) {
+    	playSoundFromEvent("bomb_"+bomb);
         if(bomb.equals("planted")) {
-        	playSoundFromEvent("bomb_planted");
         	bombTime = 41;
             bombTimer = new Timer();
             bombTimer.schedule(new TimerTask() {
@@ -68,14 +69,22 @@ public class StatePostHandler extends PostHandlerAdapter {
     		}
         }
     }
+
+    @Override
+	public void weaponShoot(Weapon weapon) {
+    	System.out.println("shoot_"+weapon.getName()+" : shoot_"+weapon.getType());
+    	if(!playSoundFromEvent("shoot_"+weapon.getName())) {
+    		playSoundFromEvent("shoot_"+weapon.getType());
+    	}
+    }
     
-    public void playSoundFromEvent(String event) {
+    public boolean playSoundFromEvent(String event) {
     	if(soundMap.isEmpty()) {
-    		return;
+    		return false;
     	}
     	Sound sound = soundMap.get(event);
     	if(sound == null) {
-    		return;
+    		return false;
     	}
     	File soundFile = sound.getFile();
     	Float soundVolume = sound.getVolume();
@@ -110,6 +119,6 @@ public class StatePostHandler extends PostHandlerAdapter {
 			e.printStackTrace();
 		}
     	
-		return;
+		return true;
     }
 }
