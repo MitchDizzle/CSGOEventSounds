@@ -37,7 +37,7 @@ public class EventSounds {
      * @param args
      */
     public static void main(String[] args) {
-    	String filePath = "SoundConfigz.cfg";
+    	String filePath = "SoundConfig.cfg";
     	if(args.length == 0) {
             System.out.println("Unable to load config file, using default SoundConfig.cfg in local directory.");
     	}
