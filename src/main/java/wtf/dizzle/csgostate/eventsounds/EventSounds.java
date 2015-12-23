@@ -37,9 +37,12 @@ public class EventSounds {
      * @param args
      */
     public static void main(String[] args) {
-        if(args.length == 0) {
-            System.out.println("Unable to load config file.");
-            System.exit(0);
+    	String filePath = "SoundConfigz.cfg";
+    	if(args.length == 0) {
+            System.out.println("Unable to load config file, using default SoundConfig.cfg in local directory.");
+    	}
+        if(args.length >= 1) {
+        	filePath = args[0];
         }
         if(args.length >= 2) {
             port = Integer.parseInt(args[1]);
@@ -47,7 +50,13 @@ public class EventSounds {
         if(args.length >= 3) {
             authKey = args[2];
         }
-        EventSounds eventSounds = new EventSounds(args[0]);
+        File configFile = new File(filePath);
+        if(!configFile.exists() || !configFile.isFile()) {
+        	System.out.println(" Unable to open config file: " + configFile.getAbsolutePath());
+        	System.exit(0);
+        }
+        
+        EventSounds eventSounds = new EventSounds(filePath);
         eventSounds.process();
     }
 

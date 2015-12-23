@@ -32,34 +32,31 @@ The config is in json format:
 The sound file can be either MP3, or WAV.
 
 # List of Events (Currently usable):
+- [X] Map Events:
+  - [X] ```map_start``` : start of a new map
+  - [X] ```map_end``` : end of a map
+  - [X] ```map_intermission``` : intermission, half time
+- [X] Round Events:
+  - [X] ```round_warmup``` : not sure if this will be implemented..
+  - [X] ```round_start``` : round start, players are still in buying period.
+      - [X] ```round_start_#``` : round start for a certain round number.
+  - [X] ```round_freeze_end``` : when the freeze time ends and the players can move.
+  - [X] ```round_end``` : when the round ends, usually when a team wins.
+      - [X] ```round_end_t``` : T win
+      - [X] ```round_end_ct``` : CT win
+      - [X] ```round_end_win``` : Local Player wins round.
+          - [X] ```round_end_win_t``` : Local Player wins round on t side.
+          - [X] ```round_end_win_ct``` : Local Player wins round on ct side.
+      - [X] ```round_end_lose``` : Local Player loses round.
+          - [X] ```round_end_lose_t``` : Local Player loses round on t side.
+          - [X] ```round_end_lose_ct``` : Local Player loses round on ct side.
 - [X] Bomb Timer:
   - [X] ```bomb_planted``` : bomb was planted
   - [X] ```bomb_defused``` : bomb was defused
   - [X] ```bomb_exploded``` : bomb exploded
   - [X] ```bomb_#``` Every second when the bomb is active.
-- [ ] Weapon Events:
-  - [ ] ```weapon_shoot``` : when ever the player shoots a weapon.
-  - [ ] ```weapon_shoot_<weapon>``` : this will fire instead of the "weapon_shoot" if setup.
-  - [ ] ```weapon_active``` : player changes weapon
-  - [ ] ```weapon_active_<weapon>``` : fires instead of weapon_active but for a certain weapon.
-  - [ ] ```weapon_reload``` : player reloads weapon
-  - [ ] ```weapon_reload_<weapon>``` : fires instead of weapon_reload but for a certain weapon.
-- [ ] Round Events:
-  - [ ] ```round_warmup``` : not sure if this will be implemented..
-  - [ ] ```round_start``` : round start, players are still in buying period.
-    - [ ] ```round_start_#``` : round start for a certain round number.
-  - [ ] ```round_freeze_end``` : when the freeze time ends and the players can move.
-  - [ ] ```round_end``` : when the round ends, usually when a team wins.
-    - [ ] ```round_end_t``` : T win
-    - [ ] ```round_end_ct``` : CT win
-    - [ ] ```round_end_win``` : Local Player wins round.
-    - [ ] ```round_end_lose``` : Local Player loses round.
-    - [ ] ```round_end_win_t``` : Local Player wins round on t side.
-    - [ ] ```round_end_win_ct``` : Local Player wins round on ct side.
-    - [ ] ```round_end_lose_t``` : Local Player loses round on t side.
-    - [ ] ```round_end_lose_ct``` : Local Player loses round on ct side.
 - [ ] Player:
-  - [ ] ```player_team_<t/ct/spec>``` : when the player changes teams
+  - [X] ```player_team_<t/ct/spec>``` : when the player changes teams
   - [ ] ```player_namechange``` : when the player changes their name.
   - [ ] ```player_health``` : when the player's health changes.
     - [ ] ```player_health-``` : when the player's health decreases.
@@ -82,13 +79,17 @@ The sound file can be either MP3, or WAV.
     - [ ] ```player_kill-``` : kills decreased
     - [ ] ```player_kill+``` : kills increased
     - [ ] ```player_kill_#``` : kills equal
-  - [ ] player_kill_hs``` : when the player's headshot kills change
+  - [ ] ```player_kill_hs``` : when the player's headshot kills change
     - [ ] ```player_kill_hs-``` : headshot kills decreased
     - [ ] ```player_kill_hs+``` : headshot kills increased
     - [ ] ```player_kill_hs_#``` : headshot kills equal
-- [ ] Map Events:
-  - [ ] ```map_start``` : start of a new map
-  - [ ] ```map_end``` : end of a map
+- [ ] Weapon Events:
+  - [ ] ```weapon_shoot``` : when ever the player shoots a weapon.
+  - [ ] ```weapon_shoot_<weapon>``` : this will fire instead of the "weapon_shoot" if setup.
+  - [ ] ```weapon_active``` : player changes weapon
+  - [ ] ```weapon_active_<weapon>``` : fires instead of weapon_active but for a certain weapon.
+  - [ ] ```weapon_reload``` : player reloads weapon
+  - [ ] ```weapon_reload_<weapon>``` : fires instead of weapon_reload but for a certain weapon.
 
 
 # Compiling Source

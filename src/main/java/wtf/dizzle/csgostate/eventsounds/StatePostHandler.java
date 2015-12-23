@@ -14,6 +14,8 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import com.brekcel.csgostate.JSON.JsonResponse;
+import com.brekcel.csgostate.JSON.Player;
 import com.brekcel.csgostate.JSON.Weapon;
 import com.brekcel.csgostate.post.PostHandlerAdapter;
 
@@ -28,6 +30,11 @@ public class StatePostHandler extends PostHandlerAdapter {
     int bombTime;
 
     private final Map<String, Sound> soundMap;
+	private String playerTeam = "s";
+	private String activity = "menu";
+	private boolean roundEnded = false;
+	private boolean roundStarted = false;
+	private int round = 0;
 
     /**
      *
@@ -38,8 +45,8 @@ public class StatePostHandler extends PostHandlerAdapter {
 
     @Override
     public void roundBombChange(String bomb) {
-        playSoundFromEvent("bomb_"+bomb);
         if(bomb.equals("planted")) {
+        	playSoundFromEvent("bomb_planted");
             bombTime = 41;
             bombTimer = new Timer();
             bombTimer.schedule(new TimerTask() {
@@ -51,24 +58,117 @@ public class StatePostHandler extends PostHandlerAdapter {
                         bombTimer = null;
                     } else {
                         playSoundFromEvent("bomb_"+bombTime);
-                        System.out.println("Explode in: " + bombTime);
+                        //System.out.println("Explode in: " + bombTime);
                     }
                 }
             }, 0, 1000);
         } else {
-            System.out.println("Bomb " + bomb);
-            if(bombTimer != null) {
-                bombTimer.cancel();
-                bombTimer = null;
-            }
+            roundEnd("bomb_"+bomb);
         }
+    }
+    
+    @Override
+    public void roundWinningTeamChange(String win_team) {
+    	String winTeam = win_team.toLowerCase();
+    	if(!playerTeam.equals("s")) {
+	    	String result = playerTeam.equalsIgnoreCase(winTeam) ? "win" : "lose";
+	    	if(!roundEnd("round_end_"+result+"_"+playerTeam)) {
+	        	if(!roundEnd("round_end_"+result)) {
+	    	    	if(!roundEnd("round_end_"+winTeam)) {
+	    	    		roundEnd("round_end");
+	    	    	}
+	        	}
+	    	}
+    	} else {
+	    	if(!roundEnd("round_end_"+winTeam)) {
+	    		roundEnd("round_end");
+	    	}
+    	}
+    }
+    
+    public boolean roundEnd(String event) {
+        if(bombTimer != null) {
+            bombTimer.cancel();
+            bombTimer = null;
+        }
+    	if(this.roundEnded == false) {
+    		if(playSoundFromEvent(event)) {
+        		roundEnded = true;
+        		roundStarted = false;
+    		}
+    		return roundEnded;
+    	}
+    	return false;
     }
 
     @Override
+    public void receivedJsonResponse(JsonResponse jsonResponse) {
+    	Player player = jsonResponse.getPlayer();
+    	this.activity = player.getActivity();
+    	if(activity.equals("playing")) {
+        	this.round = jsonResponse.getMap().getRound();
+        	if(!jsonResponse.getRound().getPhase().equals("over")) {
+        		if(player.getState().getHealth() != 0) {
+                	this.playerTeam = player.getTeam().toLowerCase();
+        		}
+        	}
+    	}
+    }
+    
+	@Override
+	public void playerTeamChange(String team) {
+		if(!team.equalsIgnoreCase(this.playerTeam)) {
+			this.playerTeam = team.toLowerCase();
+			if(!playSoundFromEvent("player_team_"+this.playerTeam)) {
+		    	playSoundFromEvent("player_team");
+			}
+		}
+	}
+
+	@Override
+	public void playerHealthChange(int health) {
+		if(roundStarted) {
+			System.out.println("player_health: "+health);
+			playSoundFromEvent("player_health");
+		}
+	}
+
+    @Override
+    public void phaseChange(String phase) {
+    	if(phase.equals("gameover")) {
+        	playSoundFromEvent("map_end");
+    	} else if(phase.equals("intermission")) {
+        	playSoundFromEvent("map_intermission");
+    	} else if(phase.equals("live")) {
+        	playSoundFromEvent("map_start");
+    	}
+    }
+    
+
+    @Override
+    public void roundPhaseChange(String phase) {
+    	//System.out.println("roundPhase: "+ phase);
+    	if(phase.equals("freezetime")) {
+        	roundEnded = false;
+    		roundStarted = true;
+    		if(playSoundFromEvent("round_start_"+round)) {
+            	playSoundFromEvent("round_start");
+    		}
+    	} else if(phase.equals("live")) {
+        	playSoundFromEvent("round_freeze_end");
+    	} else if(phase.equals("warmup")) {
+        	playSoundFromEvent("round_warmup");
+    	}
+    }
+    
+    
+    @Override
     public void weaponShoot(Weapon weapon) {
         System.out.println("shoot_"+weapon.getName()+" : shoot_"+weapon.getType());
-        if(!playSoundFromEvent("shoot_"+weapon.getName())) {
-            playSoundFromEvent("shoot_"+weapon.getType());
+        if(!playSoundFromEvent("weapon_shoot_"+weapon.getName())) {
+            if(!playSoundFromEvent("weapon_shoot_"+weapon.getType())) {
+            	playSoundFromEvent("weapon_shoot");
+            }
         }
     }
 
@@ -77,6 +177,7 @@ public class StatePostHandler extends PostHandlerAdapter {
      * @return
      */
     public boolean playSoundFromEvent(String event) {
+    	System.out.println("Event: "+event);
         if(soundMap.isEmpty()) {
             return false;
         }
